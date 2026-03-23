@@ -1,0 +1,25 @@
+body { 
+    background: #1a1a1a; 
+    color: #fff; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh; 
+    margin: 0; 
+    font-family: sans-serif;
+}
+#lamp { 
+    font-size: 5rem; 
+    filter: grayscale(1) opacity(0.3); 
+    transition: 0.3s; 
+    margin-bottom: 1rem;
+}
+#lamp.on { 
+    filter: grayscale(0) opacity(1); 
+    drop-shadow: 0 0 20px yellow;
+}
+button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
