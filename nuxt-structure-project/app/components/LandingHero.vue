@@ -25,9 +25,9 @@
             <button class="bg-stone-900 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1">
               Start Tracking
             </button>
-            <button class="bg-white text-stone-900 border-2 border-stone-200 px-8 py-4 rounded-full font-semibold text-lg hover:border-stone-300 hover:bg-stone-50 transition-all">
-              Explore Library
-            </button>
+            <NuxtLink to="/fruits" class="inline-flex items-center justify-center bg-white text-stone-900 border-2 border-stone-200 px-8 py-4 rounded-full font-semibold text-lg hover:border-stone-300 hover:bg-stone-50 transition-all">
+              Explore Fruit Library
+            </NuxtLink>
           </div>
         </div>
         

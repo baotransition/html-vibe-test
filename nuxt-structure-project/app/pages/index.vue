@@ -1,10 +1,6 @@
 <template>
-  <div class="relative selection:bg-orange-200 selection:text-orange-900">
-    <LandingNavigation />
-    <main>
-      <LandingHero />
-      <LandingFeatures />
-    </main>
-    <LandingFooter />
-  </div>
+  <main class="relative w-full">
+    <LandingHero />
+    <LandingFeatures />
+  </main>
 </template>
