@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Collection - Standalone</title>
+    <!-- Use Vue 3 Global Build from CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        :root {
+            --color-background: #ffffff;
+            --color-background-soft: #f8f8f8;
+            --color-heading: #2c3e50;
+            --color-text: #2c3e50;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .poke-view {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+
+        .poke-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .poke-input:focus {
+            border-color: #ff0000;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.1);
+        }
+
+        .add-button {
+            padding: 0.5rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            background-color: #ff0000;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+        }
+
+        .add-button:hover:not(:disabled) {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .add-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .poke-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .poke-card {
+            background-color: var(--color-background-soft);
+            border: 4px solid transparent;
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .poke-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background-color: #fff;
+        }
+
+        .poke-card:hover .info .types {
+            opacity: 1;
+        }
+
+        .pokeball-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            z-index: 2;
+        }
+
+        .image-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pokemon-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .info {
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: capitalize;
+            margin: 0 0 1.5rem 0;
+            color: var(--color-heading);
+            width: 100%;
+            text-align: center;
+        }
+
+        .types {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .type-label {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        /* Hovering over the type will highlight the Card */
+        .types:hover {
+            border-color: #3498db;
+        }
+        
+        /* CSS :has() for parent highlight when child hovered */
+        .poke-card:has(.types:hover) {
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: #888;
+            font-size: 1.2rem;
+            background: var(--color-background-soft);
+            border-radius: 16px;
+            border: 2px dashed #ddd;
+        }
+
+        /* Alert Modal */
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+
+        .alert-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 4px solid #ff0000;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="poke-view">
+            <!-- Alert Overlay -->
+            <div v-if="errorMessage" class="alert-overlay" @click.self="errorMessage = ''">
+                <div class="alert-box">
+                    <h2 style="color: #ff0000; margin-top: 0;">Message</h2>
+                    <p style="font-size: 1.1rem; margin: 1.5rem 0; color: #333;">{{ errorMessage }}</p>
+                    <button @click="errorMessage = ''" class="add-button">OK</button>
+                </div>
+            </div>
+
+            <div class="container">
+                <h1 class="title">My Pokémon Collection</h1>
+                
+                <form class="search-form" @submit.prevent="addPokemon">
+                    <input 
+                        v-model="newPokemonName" 
+                        type="text" 
+                        placeholder="Enter Pokémon name (e.g. pikachu, ditto)..." 
+                        class="poke-input"
+                        :disabled="isLoading"
+                    >
+                    <button type="submit" class="add-button" :disabled="isLoading">
+                        {{ isLoading ? 'Loading...' : 'Add Pokemon' }}
+                    </button>
+                </form>
+
+                <div v-if="caughtPokemons.length === 0" class="empty-state">
+                    <p>No Pokémon added yet. Type a name above to start your collection!</p>
+                </div>
+
+                <div class="poke-grid">
+                    <div 
+                        v-for="(pokemon, index) in caughtPokemons" 
+                        :key="pokemon.id"
+                        class="poke-card" 
+                        :class="{'is-caught': pokemon.isCaught}"
+                        @click="toggleCaught(index)"
+                    >
+                        <img 
+                            v-if="pokemon.isCaught" 
+                            src="src/assets/pokeball.png" 
+                            alt="Caught" 
+                            class="pokeball-icon"
+                        >
+                        
+                        <div class="image-container">
+                            <img :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-image">
+                        </div>
+                        
+                        <div class="info">
+                            <h3 class="name">{{ pokemon.name }}</h3>
+                            <div class="types">
+                                <span 
+                                    v-for="typeObj in pokemon.types" 
+                                    :key="typeObj.type.name"
+                                    class="type-label"
+                                    :style="{ backgroundColor: getTypeColor(typeObj.type.name) }"
+                                >
+                                    {{ typeObj.type.name.toUpperCase() }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        const typeColors = {
+            normal: '#A8A878', fire: '#F08030', water: '#6890F0', electric: '#F8D030',
+            grass: '#78C850', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0',
+            ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820',
+            rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', steel: '#B8B8D0', fairy: '#EE99AC'
+        };
+
+        createApp({
+            setup() {
+                const caughtPokemons = ref([]);
+                const newPokemonName = ref('');
+                const isLoading = ref(false);
+                const errorMessage = ref('');
+
+                const addPokemon = async () => {
+                    const name = newPokemonName.value.trim().toLowerCase();
+                    if (!name) return;
+                    
+                    errorMessage.value = '';
+
+                    // Check if already in list
+                    if (caughtPokemons.value.some(p => p.name.toLowerCase() === name)) {
+                        errorMessage.value = `You already have ${name} in your list!`;
+                        newPokemonName.value = '';
+                        return;
+                    }
+
+                    isLoading.value = true;
+                    try {
+                        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+                        if (!response.ok) {
+                            if (response.status === 404) {
+                                errorMessage.value = `Pokemon "${name}" does not exist!`;
+                                // Also trigger regular alert as requested
+                                window.alert(`Pokemon "${name}" does not exist!`);
+                            } else {
+                                errorMessage.value = 'Something went wrong. Please try again later.';
+                            }
+                            return;
+                        }
+
+                        const data = await response.json();
+                        data.isCaught = false; // Add state locally
+                        caughtPokemons.value.push(data);
+                        newPokemonName.value = '';
+                    } catch (error) {
+                        console.error('Error:', error);
+                        errorMessage.value = 'Failed to fetch Pokemon. Please check your connection.';
+                    } finally {
+                        isLoading.value = false;
+                    }
+                };
+
+                const toggleCaught = (index) => {
+                    caughtPokemons.value[index].isCaught = !caughtPokemons.value[index].isCaught;
+                };
+
+                const getTypeColor = (type) => typeColors[type.toLowerCase()] || '#777';
+
+                return {
+                    caughtPokemons, newPokemonName, isLoading, errorMessage,
+                    addPokemon, toggleCaught, getTypeColor
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
