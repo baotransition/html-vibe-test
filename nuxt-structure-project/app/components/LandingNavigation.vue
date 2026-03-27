@@ -3,15 +3,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <!-- Logo -->
-        <div class="flex-shrink-0 flex items-center gap-2">
-          <span class="text-3xl">🥝</span>
-          <span class="text-2xl font-extrabold text-stone-900 tracking-tight">Fruit Tracker</span>
-        </div>
+        <NuxtLink to="/" class="flex-shrink-0 flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-lg">
+          <span class="text-3xl group-hover:scale-110 transition-transform duration-300">🥝</span>
+          <span class="text-2xl font-extrabold text-stone-900 tracking-tight group-hover:text-orange-600 transition-colors duration-300">Fruit Tracker</span>
+        </NuxtLink>
         
         <!-- Desktop Nav -->
         <div class="hidden md:flex space-x-8 items-center">
           <NuxtLink to="/fruits" class="text-stone-600 hover:text-orange-600 font-bold transition-colors">Explore Fruit Library</NuxtLink>
-          <a href="#" class="text-stone-600 hover:text-stone-900 font-medium transition-colors">Features</a>
           <NuxtLink to="/fruits/add" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:-translate-y-0.5">Add a Fruit</NuxtLink>
         </div>
       </div>

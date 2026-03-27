@@ -22,9 +22,9 @@
             Discover, track, and learn about every fruit imaginable. From the common apple to the exotic dragon fruit, visually stunning details await your exploration.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <button class="bg-stone-900 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1">
-              Start Tracking
-            </button>
+            <NuxtLink to="/fruits/add" class="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1">
+              Add a Fruit
+            </NuxtLink>
             <NuxtLink to="/fruits" class="inline-flex items-center justify-center bg-white text-stone-900 border-2 border-stone-200 px-8 py-4 rounded-full font-semibold text-lg hover:border-stone-300 hover:bg-stone-50 transition-all">
               Explore Fruit Library
             </NuxtLink>
