@@ -40,14 +40,14 @@
           <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
             <!-- Row 1: Name and Color Picker -->
             <div class="md:col-span-3 space-y-2">
-              <label class="block text-sm font-bold text-stone-400 uppercase tracking-widest">Fruit Name</label>
-              <input v-model="form.name" type="text" required placeholder="e.g. Starfruit" class="w-full px-4 py-4 rounded-2xl bg-stone-50 border border-stone-100 text-stone-900 font-bold text-xl placeholder-stone-300 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-200" />
+              <label class="block text-sm font-bold text-stone-700 uppercase tracking-widest">Fruit Name</label>
+              <input v-model="form.name" type="text" required placeholder="e.g. Starfruit" class="w-full px-4 py-4 rounded-2xl bg-stone-50 border-2 border-stone-300 text-stone-900 font-bold text-xl placeholder-stone-500 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-400" />
             </div>
             
             <div class="md:col-span-2 space-y-2">
-              <label class="block text-sm font-bold text-stone-400 uppercase tracking-widest">Theme Color</label>
+              <label class="block text-sm font-bold text-stone-700 uppercase tracking-widest">Theme Color</label>
               <div class="relative">
-                <select v-model="form.color" required class="w-full px-4 py-4 rounded-2xl bg-stone-50 border border-stone-100 text-stone-900 font-bold text-lg focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-200 appearance-none cursor-pointer">
+                <select v-model="form.color" required class="w-full px-4 py-4 rounded-2xl bg-stone-50 border-2 border-stone-300 text-stone-900 font-bold text-lg focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-400 appearance-none cursor-pointer">
                   <option value="#ef4444">Red</option>
                   <option value="#f97316">Orange</option>
                   <option value="#eab308">Yellow</option>
@@ -64,21 +64,21 @@
 
           <!-- Image URL -->
           <div class="space-y-4 mt-6">
-            <label class="block text-sm font-bold text-stone-400 uppercase tracking-widest">High-Res Image URL</label>
-            <input v-model="form.img" type="url" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-4 rounded-2xl bg-stone-50 border border-stone-100 text-stone-900 font-bold text-lg placeholder-stone-300 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-200" />
+            <label class="block text-sm font-bold text-stone-700 uppercase tracking-widest">High-Res Image URL</label>
+            <input v-model="form.img" type="url" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-4 rounded-2xl bg-stone-50 border-2 border-stone-300 text-stone-900 font-bold text-lg placeholder-stone-500 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-400" />
           </div>
 
           <!-- Facts List Generator -->
           <div class="pt-8 border-t-[3px] border-stone-900/5">
             <div class="mb-8">
-              <label class="block text-sm font-bold text-stone-400 uppercase tracking-widest">Fascinating Facts</label>
+              <label class="block text-sm font-bold text-stone-700 uppercase tracking-widest">Fascinating Facts</label>
             </div>
             
             <div class="space-y-5 mb-8">
               <div v-for="(fact, index) in form.facts" :key="index" class="flex items-center gap-4">
-                <span class="text-stone-300 font-black shrink-0 w-8 text-2xl text-right">{{ index + 1 }}.</span>
-                <input v-model="fact.description" type="text" required placeholder="Enter a cool fact..." class="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-100 text-stone-900 font-bold text-lg placeholder-stone-300 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-200" />
-                <button v-if="form.facts.length > 1" type="button" @click="removeFact(index)" class="w-14 h-14 rounded-2xl bg-stone-50 border border-stone-100 hover:bg-rose-100/50 hover:border-rose-200 text-stone-300 hover:text-rose-500 flex items-center justify-center transition-all shrink-0">
+                <span class="text-stone-500 font-black shrink-0 w-8 text-2xl text-right">{{ index + 1 }}.</span>
+                <input v-model="fact.description" type="text" required placeholder="Enter a cool fact..." class="w-full px-5 py-4 rounded-2xl bg-stone-50 border-2 border-stone-300 text-stone-900 font-bold text-lg placeholder-stone-500 focus:bg-white focus:ring-4 focus:ring-stone-900/10 transition-all outline-none hover:border-stone-400" />
+                <button v-if="form.facts.length > 1" type="button" @click="removeFact(index)" class="w-14 h-14 rounded-2xl bg-stone-50 border-2 border-stone-300 hover:bg-rose-100/50 hover:border-rose-300 text-stone-500 hover:text-rose-600 flex items-center justify-center transition-all shrink-0">
                   <span class="text-3xl leading-none">&times;</span>
                 </button>
               </div>
